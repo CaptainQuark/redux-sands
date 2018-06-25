@@ -10,11 +10,9 @@ Redux-wrapper for React-components. As DRY as the desert: takes care of managing
 
 <br/><br/></br>
 
----
 > Note:
 > This package is currently in in beta and under active development, so please install via:<br/>
 > `npm install redux-sands@beta`
----
 
 <br/><br/></br>
 
