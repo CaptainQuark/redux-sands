@@ -1,0 +1,41 @@
+{
+  "name": "clear",
+  "version": "1.0.0",
+  "description": "Wrapper for redux to handle all boiler-plate. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel source -d production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaptainQuark/redux-sands.git"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "saga",
+    "boilerplate",
+    "remove",
+    "react-native",
+    "web",
+    "state"
+  ],
+  "author": "Thomas Schönmann",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CaptainQuark/redux-sands/issues"
+  },
+  "homepage": "https://github.com/CaptainQuark/redux-sands#readme",
+  "dependencies": {
+    "react-redux": "^5.0.7",
+    "redux-saga": "^0.16.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}
