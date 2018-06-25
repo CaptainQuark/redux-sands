@@ -8,8 +8,8 @@
 //  Model to minify Redux-debris in app.
 //
 
-const { connect } = require("react-redux");
-const { takeEvery, call, put } = require("redux-saga/effects");
+import { connect } from "react-redux";
+import { takeEvery, call, put } from "redux-saga/effects";
 
 /*
  *
@@ -17,7 +17,7 @@ const { takeEvery, call, put } = require("redux-saga/effects");
  *
  */
 
-exports.default = class ReduxWrapper {
+class ReduxWrapper {
   constructor(props) {
     if (!props.called) {
       throw Error("ReduxWrapper : constructor - missing 'called'-arg");
@@ -29,14 +29,13 @@ exports.default = class ReduxWrapper {
     this.saga = [];
     this.otherStateProps = {};
     this.otherStateActions = {};
+
+    this._bind();
   }
 
   mapStateToProps(state) {
     let mapped = { ...state[this._id] };
     const props = { ...this.otherStateProps };
-
-    //console.log(`ReduxWrapper : mapStateToProps : ...state[${this._id}] -`, mapped);
-    //console.log("ReduxWrapper : mapStateToProps : ...this.otherStateProps -", props, ", _id -", this._id);
 
     Object.keys(props).forEach(id => {
       if (props[id] === "all") {
@@ -78,7 +77,7 @@ exports.default = class ReduxWrapper {
     else if (component) this.component = component;
     else if (reducer) this._addActionReducer({ action: reducer });
     else if (otherStateProps) this.otherStateProps = { ...this.otherStateProps, otherStateProps };
-    // No matching key, which means we the caller provides a reducerAction. Now we
+    // No matching key, which means the caller provides a reducerAction. Now we
     // have to check if the value equals a function or an object containing the fn-key
     // (and maybe a 'withSaga'). If 'withSaga' is provided, the 'fn'-key is too.
     else this._addActionReducer({ action: props });
@@ -87,13 +86,8 @@ exports.default = class ReduxWrapper {
   }
 
   import(props) {
-    if (props.reducer) {
-      this._importOtherDispatchProps(props);
-    }
-
-    if (props.state) {
-      this._importOtherStateProps(props);
-    }
+    if (props.reducer) this._importOtherDispatchProps(props);
+    if (props.state) this._importOtherStateProps(props);
 
     return this;
   }
@@ -110,10 +104,6 @@ exports.default = class ReduxWrapper {
 
     // There might be imported ones as well.
     Object.keys(this.otherStateActions).forEach(wrapperName => {
-      if (this._id === "waitingList") {
-        console.log("ReduxWrapper : dispatches : this.otherStateActions -", this.otherStateActions);
-      }
-
       this.otherStateActions[wrapperName].forEach(element => {
         const names = ReduxWrapper._extractImportReducerParams(element);
         const t = ReduxWrapper._createExternalTypes({
@@ -124,8 +114,6 @@ exports.default = class ReduxWrapper {
         obj[names.exposedName] = params => dispatch({ type: t.proxy, dispatch, ...params });
       });
     });
-
-    this._id === "waitingList" && console.log("ReduxWrapper : dispatches : obj for", this._id, " -", obj);
 
     return obj;
   }
@@ -139,9 +127,6 @@ exports.default = class ReduxWrapper {
 
   // Exposed to store.
   reducer(state = this.initState, action) {
-    //console.log("ReduxWrapper : reducer : action -", action);
-    //console.log("ReduxWrapper : reducer : this.actionReducers -", this.actionReducers);
-
     if (this.actionReducers[action.type] && this.actionReducers[action.type].isReducable)
       return this.actionReducers[action.type].f(state, action);
 
@@ -151,6 +136,19 @@ exports.default = class ReduxWrapper {
   /*
    * Internal.
    */
+
+  _bind() {
+    this.mapStateToProps = this.mapStateToProps.bind(this);
+    this.mapDispatchToProps = this.mapDispatchToProps.bind(this);
+    this.dispatches = this.dispatches.bind(this);
+    this.reducer = this.reducer.bind(this);
+    this._importOtherDispatchProps = this._importOtherDispatchProps.bind(this);
+    this._importOtherStateProps = this._importOtherStateProps.bind(this);
+    this._addActionReducer = this._addActionReducer.bind(this);
+    this._addAtomicActionReducer = this._addAtomicActionReducer.bind(this);
+    this._addSaga = this._addSaga.bind(this);
+    this._addSagaAction = this._addSagaAction.bind(this);
+  }
 
   _dispatch(props) {
     const { dispatch, type, action } = props;
@@ -169,6 +167,7 @@ exports.default = class ReduxWrapper {
 
   _importOtherDispatchProps(props) {
     const copy = { ...props.reducer };
+    const { isLogging } = this;
 
     Object.keys(copy).forEach(wrapperName => {
       this.otherStateActions[wrapperName] = copy[wrapperName];
@@ -198,26 +197,12 @@ exports.default = class ReduxWrapper {
               .filter(key => key !== "dispatch" && key !== "type")
               .forEach(key => (foreignParams[key] = copy[key]));
 
-            //console.log("ReduxWrapper : proxy reducer : action -", action);
-            //console.log("ReduxWrapper : proxy reducer : dispatch -", { type: t.basic, ...foreignParams });
-
-            // TODO:
-            //
-            // This is some redundant code. The saga-signatures for actions should be created in one place.
-            // In this very example, we're dispatching a SAGA_REQ_...-action from another comp, if desired.
             withSaga
               ? yield put({ type: t.saga.req, call, put, result: { type: t.saga.rec }, ...foreignParams })
               : yield put({ type: t.basic, ...foreignParams });
           })
         );
       });
-
-      /*
-      console.log();
-      console.log("ReduxWrapper : import : for _id -", this._id);
-      console.log("ReduxWrapper : import : this.otherStateActions -", this.otherStateActions);
-      console.log("ReduxWrapper : import : this.saga -", this.saga);
-      */
     });
   }
 
@@ -238,7 +223,6 @@ exports.default = class ReduxWrapper {
     const actionKey = Object.keys(_action)[0];
     const type = `${this._id.toUpperCase()}_${actionKey.toUpperCase()}`;
 
-    //console.log("ReduxWrapper : addAction : this.actionReducers -", this.actionReducers);
     this.actionReducers[type] = {
       name: actionKey,
       f: isShort ? _action[actionKey] : _action[actionKey].fn,
@@ -255,7 +239,9 @@ exports.default = class ReduxWrapper {
       case "takeEvery":
         return this._addSagaAction({ action, exposedFnName, sagaFnName, sagaListener: takeEvery });
       default:
-        throw "ReduxWrapper : _addSaga : fn-signature unknown. The key in 'withSaga' can't be used or isn't provided.";
+        throw Error(
+          "ReduxWrapper : _addSaga : fn-signature unknown. The key in 'withSaga' can't be used or isn't provided."
+        );
     }
   }
 
@@ -280,9 +266,6 @@ exports.default = class ReduxWrapper {
     // Finally add the reducer provided by the caller. This function
     // deals with the saga's result.
     this.actionReducers[recType] = { f: _action[actionKey].fn, isReducable: true };
-
-    console.log("ReduxWrapper : _addSagaAction : this.saga -", this.saga);
-    console.log("ReduxWrapper : _addSagaAction : this.actionReducers -", this.actionReducers);
   }
 
   static _createExternalTypes({ namespace, fName, _id, withSaga = false }) {
@@ -314,4 +297,12 @@ exports.default = class ReduxWrapper {
 
     return { ...names };
   }
-};
+}
+
+/*
+ *
+ * Exports.
+ *
+ */
+
+export default ReduxWrapper;
