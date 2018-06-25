@@ -1,8 +1,8 @@
 {
-  "name": "clear",
-  "version": "1.0.0",
-  "description": "Wrapper for redux to handle all boiler-plate. ",
-  "main": "index.js",
+  "name": "redux-sands",
+  "version": "1.0.0-rc2",
+  "description": "Wrapper for redux to handle all boiler-plate, as DRY as the desert. ",
+  "main": "production/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel source -d production"
@@ -21,7 +21,7 @@
     "web",
     "state"
   ],
-  "author": "Thomas Schönmann",
+  "author": "Thomas Schönmann <tom@expressflow.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/CaptainQuark/redux-sands/issues"
@@ -31,7 +31,9 @@
     "babel-plugin-transform-export-default": "^7.0.0-alpha.20",
     "babel-preset-minify": "^0.5.0-alpha.a24dd066",
     "babel-runtime": "^6.26.0",
+    "react": "^16.4.1",
     "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
     "redux-saga": "^0.16.0"
   },
   "devDependencies": {
