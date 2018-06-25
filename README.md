@@ -11,7 +11,7 @@ Redux-wrapper for React-components. As DRY as the desert: takes care of managing
 <br/><br/></br>
 
 ### Introduction
-'redux-sands' gives you a class called `ReduxWrapper`. Here's a simple example that demonstrates how you could it:
+'redux-sands' gives you a class called `ReduxWrapper`. Here's a simple example that demonstrates how you could use it:
 
 ```js
 import ReduxWrapper from "redux-sands";
@@ -53,3 +53,42 @@ export const saga = wrapper.saga;
 ```
 <br/><br/>
 You're also able to import reducers as well as state-props from other `ReduxWrapper`s in a dead-simple fashion. As demonstrated above, you can either import them 'as-is' or apply renaming.
+<br/><br/>
+
+Last but not least, as hinted above, `redux-saga` is also supported. Here's how:
+```js
+...
+
+wrapper
+  .add({ initState: { data: {} } })
+  .add({ component })
+  .add({
+    refetch: {
+      fn: (state, { data = {} }) => {
+        return { ...state, data };
+      },
+      withSaga: {
+        takeEvery: function*(action) {
+          const { url, result, put } = action;
+
+          try {
+            const data = yield fetch(url);
+            yield put({ ...result, data });
+          } catch (e) {
+            yield put({ ...result, error: e });
+          }
+        }
+      }
+    }
+  })
+  
+// Expose the redux-wrapper as any other redux-component.
+export default wrapper.connection;
+export const reducer = wrapper.reducer;
+export const saga = wrapper.saga;
+```
+<br/><br/>
+Here you can see a dummy-implementation that leverages the saga-integration. You provide both the standard reducer-function and a saga-function. The specific saga-fn gets derived by its key (currently only 'takeEvery' is implemented), with the value representing the actual generator-method used by saga. After the async calls are done, you place your params in the 'put' method, which is provided in the action (including 'call' from saga). The params then get passed to the reducer, where stuff gets done as usual.
+<br/><br/>
+
+That's it for an overview. For detailed info, take a look at the API-sepcs following.
