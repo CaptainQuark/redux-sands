@@ -10,6 +10,14 @@ Redux-wrapper for React-components. As DRY as the desert: takes care of managing
 
 <br/><br/></br>
 
+---
+> Note:
+> This package is currently in in beta and under active development, so please install via:<br/>
+> `npm install redux-sands@beta`
+---
+
+<br/><br/></br>
+
 ### Introduction
 `redux-sands` gives you a single class as default export, from now on called `ReduxWrapper`. Here's a simple example that demonstrates how you could use it:
 
