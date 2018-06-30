@@ -180,8 +180,10 @@ Get reducer for integration with the store. Variable, not a function.
 ### `saga`
 Get the saga for integraton with the store's middleware. Variable, not a function.
 
-### `types`
-Get a mapping of all used reducer-names to the internally used action-types. Variable, not a function.
+### `types(...)`
+Get a mapping of all used reducer-names to the internally used action-types. If no strings are provided, a complete map of all names is returned. Otherwise provide a set of requested names, seperated by colon.
+
+> Example: ```wrapper.types("update", "remove")
 
 <br/><br/></br>
 
