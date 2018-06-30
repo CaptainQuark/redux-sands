@@ -42,12 +42,12 @@ import component from "./component";
 // Instantiate the wrapper.
 const wrapper = new ReduxWrapper({ called: "example" });
 
-// Simply add the inital state, the component for render + a reducer.
+// Simply add the initial state, the component for render + a reducer.
 wrapper
   .add({ initState: { count: 0 } })
   .add({ component })
   .add({ update: (state, action) => ({ ...state, ...action.element }) })
-  
+
 // Expose the redux-wrapper as any other redux-component.
 export default wrapper.connection;
 export const reducer = wrapper.reducer;
@@ -56,7 +56,7 @@ And now let's call it:
 ```jsx
 class Comp extends PureComponent {
   render(){
-  
+
     // When using 'ReduxWrapper', only an object as param is allowed.
     // Provide your values then via that object.
     return (
@@ -67,7 +67,7 @@ class Comp extends PureComponent {
   }
 }
 ```
-As far as basic use cases go, that's it! No more hassle with manually creating actions, mappings and endless switches. Action-types get inferred automatically, as well as the linking to the reducer. You can focus on the acutal app logic without having to deal with refactoring etc. 
+As far as basic use cases go, that's it! No more hassle with manually creating actions, mappings and endless switches. Action-types get inferred automatically, as well as the linking to the reducer. You can focus on the actual app logic without having to deal with refactoring etc.
 <br/><br/>
 
 Furthermore, `ReduxWrapper` provides additional skills to simplify redux-usage:
@@ -80,7 +80,7 @@ wrapper
   .add({ update: (state, { element }) => ({ ...state, ...element }) })
   .import({ reducer: { otherReduxComp: ["reset", { origin: "delete", as: "otherDelete" }] } })
   .import({ state: { otherReduxComp: ["schemas"] } });
-  
+
 // Expose the redux-wrapper as any other redux-component.
 // Important: 'saga' has to be exported when using 'import(...)' and integrated into the store-middleware.
 export default wrapper.connection;
@@ -116,7 +116,7 @@ wrapper
       }
     }
   })
-  
+
 // Expose the redux-wrapper as any other redux-component.
 export default wrapper.connection;
 export const reducer = wrapper.reducer;
@@ -125,7 +125,7 @@ export const saga = wrapper.saga;
 Here you can see a dummy-implementation that leverages the saga-integration. You provide both the standard reducer-function and a saga-function. The specific saga-fn gets derived by its key (currently only 'takeEvery' is implemented), with the value representing the actual generator-method used by saga. After the async calls are done, you place your params in the 'put' method, which is provided in the action (including 'call' from saga). The params then get passed to the reducer, where stuff gets done as usual.
 <br/><br/>
 
-That's it for an overview. For detailed info, take a look at the API-sepcs following.
+That's it for an overview. For detailed info, take a look at the API-specs following.
 
 <br/><br/></br>
 
@@ -135,15 +135,15 @@ Instantiate a new wrapper by providing arguments as values in an object.
 
 Required args to pass:
 - `called`
-  - Provide a unique id for the wrapper in your app's namepspace. Required for namespacing every added reducer/state.
+  - Provide a unique id for the wrapper in your app's namespace. Required for namespacing every added reducer/state.
   - Example: ```const wrapper = new ReduxWrapper({ called: "demo" });```
-  
+
 Optional:
 - `component`
   - React-component to connect to. Can be provided during init or via `add`.
 
 ### `add`
-The function `add` is responsible for building your wrapper to acutally do some stuff. Every `add` returns the instance, so you can nicely chain your additions.
+The function `add` is responsible for building your wrapper to actually do some stuff. Every `add` returns the instance, so you can nicely chain your additions.
 
 Every `add`-call only takes an object which itself only has a single root-key, thus limiting each addition to one specific task.
 
@@ -151,7 +151,7 @@ Every `add`-call only takes an object which itself only has a single root-key, t
 Define a default state to fetch if no matching action-type has been found. Has to be provided, else redux can't set the default state, too. Same as in every standard reducer used with redux.
 
 #### `add({ component: })`
-Define the component for this wrapper. Not necessary if alredy done during init.
+Define the component for this wrapper. Not necessary if already done during init.
 
 #### `add({ reducer: })`
 Add a new reducer. **This call has a shorthand version, see next listing.**. You define a reducer by providing its name as the next key after `reducer`. The name-key itself has possible two children:
@@ -164,7 +164,7 @@ Add a new reducer. **This call has a shorthand version, see next listing.**. You
   - The effect-name-key has the usual saga-generator as child.
 
 #### `add({ ?: })`
-When none of the keys above is provided, it's assumed you're providing a reducer in the shorthand version. Therefore, the key describes the reducer name and its child represents the reducer-functions itself. This is shortes way possible to add a reducer.
+When none of the keys above is provided, it's assumed you're providing a reducer in the shorthand version. Therefore, the key describes the reducer name and its child represents the reducer-functions itself. This is shortest way possible to add a reducer.
 
 > Example: ```.add({ update: (state, action) => ({...state, ...action}))```
 
@@ -175,10 +175,10 @@ Get the react-redux connection component. Variable, not a function.
 Get reducer for integration with the store. Variable, not a function.
 
 ### `saga`
-Get the saga for integraton with the store's middleware. Variable, not a function.
+Get the saga for integration with the store's middleware. Variable, not a function.
 
 ### `types(...)`
-Get a mapping of all used reducer-names to the internally used action-types. If no strings are provided, a complete map of all names is returned. Otherwise provide a set of requested names, seperated by colon.
+Get a mapping of all used reducer-names to the internally used action-types. If no strings are provided, a complete map of all names is returned. Otherwise provide a set of requested names, separated by colon.
 
 > Example: ```wrapper.types("update", "remove")
 
@@ -189,4 +189,4 @@ Get a mapping of all used reducer-names to the internally used action-types. If 
   - Added `types(...)` to export the internal types used. Returns an object, where each key is the reducer name and its value the matching internal type
   - First jest tests
 - 1.0.0-beta.1:
-  - Inital upload. Full support for state-prop + reducer creation. Full support for importing other's state and reducers. Basic saga integration (only observering 'takeEvery')
+  - Initial upload. Full support for state-prop + reducer creation. Full support for importing other's state and reducers. Basic saga integration (only observing 'takeEvery')
