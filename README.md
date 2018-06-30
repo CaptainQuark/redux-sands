@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/CaptainQuark/redux-sands/blob/master/assets/ReduxSands%20hero.004.png" width="100%"/>
+  <img src="https://raw.githubusercontent.com/CaptainQuark/redux-sands/master/assets/ReduxSands%20hero.004.png" width="100%"/>
 </p>
 
 <br/><br/><br/>
@@ -10,13 +10,14 @@ Redux-wrapper for React-components. As DRY as the desert: takes care of managing
 
 <br/><br/></br>
 
-> Note:
-> This package is currently in in beta and under active development, so please install via:<br/>
-> `npm install redux-sands@beta`
+## Chapters
+- [Introduction](#introduction)
+- [API](#api)
+- [Change-Log](#change-log)
 
 <br/><br/></br>
 
-### Introduction
+## Introduction
 `redux-sands` gives you a single class as default export, from now on called `ReduxWrapper`. Here's a simple example that demonstrates how you could use it:
 
 ```js
@@ -30,7 +31,7 @@ const wrapper = new ReduxWrapper({ called: "example" });
 wrapper
   .add({ initState: { count: 0 } })
   .add({ component })
-  .add({ update: (state, { element }) => ({ ...state, ...element }) })
+  .add({ update: (state, action) => ({ ...state, ...action.element }) })
   
 // Expose the redux-wrapper as any other redux-component.
 export default wrapper.connection;
@@ -43,7 +44,11 @@ class Comp extends PureComponent {
   
     // When using 'ReduxWrapper', only an object as param is allowed.
     // Provide your values then via that object.
-    return <div onClick={() => this.props.update({count: this.props.count + 1})>Click</div/>
+    return (
+      <div onClick={() => this.props.update({ count: this.props.count + 1 })}>
+        Increment
+      </div>
+    );
   }
 }
 ```
@@ -109,3 +114,13 @@ Here you can see a dummy-implementation that leverages the saga-integration. You
 <br/><br/>
 
 That's it for an overview. For detailed info, take a look at the API-sepcs following (coming soon).
+
+## API
+
+
+## Change-Log
+- 1.0.0-beta.2:
+  - Added `types(...)` to export the internal types used. Returns an object, where each key is the reducer name and its value the matching internal type
+  - First jest tests
+- 1.0.0-beta.1:
+  - Inital upload. Full support for state-prop + reducer creation. Full support for importing other's state and reducers. Basic saga integration (only observering 'takeEvery')
