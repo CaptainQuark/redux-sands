@@ -11,9 +11,24 @@ Redux-wrapper for React-components. As DRY as the desert: takes care of managing
 <br/><br/></br>
 
 ## Chapters
+- [Installing](#installing)
 - [Introduction](#introduction)
 - [API](#api)
 - [Change-Log](#change-log)
+
+<br/><br/></br>
+
+## Installing
+
+Using npm:
+>```
+>npm install redux-sands
+>```
+
+Using yarn:
+>```
+>yarn add redux-sands
+>```
 
 <br/><br/></br>
 
@@ -68,7 +83,7 @@ wrapper
   .import({ state: { otherReduxComp: ["schemas"] } });
   
 // Expose the redux-wrapper as any other redux-component.
-// Important: 'saga' has to be exported when using 'import(...)'.
+// Important: 'saga' has to be exported when using 'import(...)' and integrated into the store-middleware.
 export default wrapper.connection;
 export const reducer = wrapper.reducer;
 export const saga = wrapper.saga;
@@ -115,8 +130,60 @@ Here you can see a dummy-implementation that leverages the saga-integration. You
 
 That's it for an overview. For detailed info, take a look at the API-sepcs following (coming soon).
 
-## API
+<br/><br/></br>
 
+## API
+### `constructor`
+Instantiate a new wrapper by providing arguments as values in an object.
+
+Required args to pass:
+- `called`
+  - Provide a unique id for the wrapper in your app's namepspace. Required for namespacing every added reducer/state.
+  - Example: ```const wrapper = new ReduxWrapper({ called: "demo" });```
+  
+Optional:
+- `component`
+  - React-component to connect to. Can be provided during init or via `add`.
+
+### `add`
+The function `add` is responsible for building your wrapper to acutally do some stuff. Every `add` returns the instance, so you can nicely chain your additions.
+
+Every `add`-call only takes an object which itself only has a single root-key, thus limiting each addition to one specific task.
+
+#### `add({ initState: })`
+Define a default state to fetch if no matching action-type has been found. Has to be provided, else redux can't set the default state, too. Same as in every standard reducer used with redux.
+
+#### `add({ component: })`
+Define the component for this wrapper. Not necessary if alredy done during init.
+
+#### `add({ reducer: })`
+Add a new reducer. **This call has a shorthand version, see next listing.**. You define a reducer by providing its name as the next key after `reducer`. The name-key itself has possible two children:
+
+- `fn`: The reducer function, just as you know from standard redux.
+  - Takes `(state, action)` as function-params.
+  - Has to return a state-copy, as it's usally done by redux.
+- `withSaga`: Provide an additional saga-listener.
+  - Has only one children, which itself is a key, too: Represents one of saga's effect-functions, such as `takeEvery`, provided as strnig. The mapping to the correct function gets done by the wrapper.
+  - The effect-name-key has the usual saga-generator as child.
+
+#### `add({ ?: })`
+When none of the keys above is provided, it's assumed you're providing a reducer in the shorthand version. Therefore, the key describes the reducer name and its child represents the reducer-functions itself. This is shortes way possible to add a reducer.
+
+> Example: ```.add({ update: (state, action) => ({...state, ...action}))```
+
+### `connection`
+Get the react-redux connection component. Variable, not a function.
+
+### `reducer`
+Get reducer for integration with the store. Variable, not a function.
+
+### `saga`
+Get the saga for integraton with the store's middleware. Variable, not a function.
+
+### `types`
+Get a mapping of all used reducer-names to the internally used action-types. Variable, not a function.
+
+<br/><br/></br>
 
 ## Change-Log
 - 1.0.0-beta.2:
