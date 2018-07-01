@@ -71,7 +71,7 @@ const wrapper = new ReduxWrapper({ called: "example" });
 wrapper
   .add({ initState: { count: 0 } })
   .add({ component })
-  .add({ update: (state, action) => ({ ...state, ...action.element }) });
+  .add({ update: (state, action) => ({ ...state, ...action }) });
 
 // Expose the redux-wrapper as any other redux-component.
 export default wrapper.connection;
@@ -105,7 +105,7 @@ Furthermore, `ReduxWrapper` provides additional skills to simplify redux-usage:
 wrapper
   .add({ initState: { count: 0 } })
   .add({ component })
-  .add({ update: (state, { element }) => ({ ...state, ...element }) })
+  .add({ update: (state, action) => ({ ...state, ...action }) })
   .import({ reducer: { otherReduxComp: ["reset", { origin: "delete", as: "otherDelete" }] } })
   .import({ state: { otherReduxComp: ["schemas"] } });
 
