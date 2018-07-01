@@ -181,15 +181,15 @@ Optional:
 
 The function `add` is responsible for building your wrapper to actually do some stuff. Every `add` returns the instance, so you can nicely chain your additions.
 
-Every `add`-call only takes an object which itself only has a single root-key, thus limiting each addition to one specific task.
+Every `add`-call only takes an object which itself only has a single root-key, thus limiting each addition to one specific task. Here is a list of all  possible add-params:
 
 - `add({ initState: })`
 
-  Define a default state to fetch if no matching action-type has been found. Has to be provided, else redux can't set the default state, too. Same as in every standard reducer used with redux.
+  Define a default state for redux. Has to be provided. Same as in every standard reducer used with redux.
 
 - `add({ component: })`
 
-  Define the component for this wrapper. Not necessary if already done during init.
+  Define the React-component for this wrapper. Not necessary if already done during init.
 
 - `add({ reducer: })`
 
@@ -206,7 +206,31 @@ Every `add`-call only takes an object which itself only has a single root-key, t
 
   When none of the keys above is provided, it's assumed you're providing a reducer in the shorthand version. Therefore, the key describes the reducer name and its child represents the reducer-functions itself. This is shortest way possible to add a reducer.
 
-  > Example: `.add({ update: (state, action) => ({...state, ...action}))`
+  > Example 1: `.add({ update: (state, action) => ({ ...state, ...action }))`
+  > Example 2: `.add({ update: (state, { count }) => ({ ...state, count }))`
+
+#### `import`
+
+> Note:
+> Currently only works when importing from other `redux-sands`-wrappers. A future release will allow to import any action and state.
+
+`redux-sands` also provides a clean and easy way to import other states and reducers.
+
+  - `import({ reducer: { [wrapperName]: ["reducerName", "reducerName"] }})`
+    - Import other reducers by first using the key `reducer`, which holds an object of wrapperName-reducerNAmesArray-tuples.
+    > Example: `import({ reducer: { account: ["add", "remove"] }})`
+    
+  - `import({ state: { [wrapperName]: ["stateProp", "stateProp"] }})`
+    - Import oter state props. Works like importing other reducers.
+    
+You're not limited to import them 'as-is'. Every reducer/state-prop can be renamed by simply replacing the string-definition with an object: `{ origin: "originalName", as: "customNameInThisWrapper" }`.
+
+> Example:
+> ```
+> import({ reducer: {
+>   account: [{ origin: "add", as: "addAccount" }, { origin: "remove", as: "removeAccount" }]
+> } })
+> ```
 
 #### `connection`
 
