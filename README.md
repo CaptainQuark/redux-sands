@@ -202,7 +202,7 @@ Add a new reducer. **This call has a shorthand version, see next listing.**. You
   - Has only one children, which itself is a key, too: Represents one of saga's effect-functions, such as `takeEvery`, provided as strnig. The mapping to the correct function gets done by the wrapper.
   - The effect-name-key has the usual saga-generator as child.
 
-#### `add({ ?: })`
+#### `add({ [reducerName]: })`
 
 When none of the keys above is provided, it's assumed you're providing a reducer in the shorthand version. Therefore, the key describes the reducer name and its child represents the reducer-functions itself. This is shortest way possible to add a reducer.
 
@@ -224,12 +224,19 @@ Get the saga for integration with the store's middleware. Variable, not a functi
 
 Get a mapping of all used reducer-names to the internally used action-types. If no strings are provided, a complete map of all names is returned. Otherwise provide a set of requested names, separated by colon.
 
-> Example: ```wrapper.types("update", "remove")
+> Example: ```wrapper.types("update", "remove")```
 
 <br/><br/></br>
 
 ## Change-Log
 
+- 1.0.0-beta.5:
+  - Fixed error in Readme that would cause the wrapper to not work ( (state, {element}) now corrected to (state, action))
+- 1.0.0-beta.4:
+  - Integrated Travis-CI
+- 1.0.0-beta.3:
+  - Added first jest tests
+  - Updated Readme
 - 1.0.0-beta.2:
   - Added `types(...)` to export the internal types used. Returns an object, where each key is the reducer name and its value the matching internal type
   - First jest tests
