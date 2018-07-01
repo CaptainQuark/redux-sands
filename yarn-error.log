@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn run test
+  /usr/local/bin/node /usr/local/bin/yarn run publish
 
 PATH: 
   /Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Python.framework/Versions/3.6/bin
@@ -16,12 +16,13 @@ Platform:
 npm manifest: 
   {
     "name": "redux-sands",
-    "version": "1.0.0-rc2",
+    "version": "1.0.0-beta.2",
     "description": "Wrapper for redux to handle all boiler-plate, as DRY as the desert. ",
     "main": "production/index.js",
     "scripts": {
       "test": "jest",
-      "build": "babel source -d production"
+      "build": "babel source -d production",
+      "publish": "npm run build && npm publish"
     },
     "repository": {
       "type": "git",
@@ -4113,7 +4114,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c jest
+  Arguments: -c npm run build && npm publish
   Directory: /Users/tom/Github/redux-sands
   Output:
   
