@@ -22,7 +22,11 @@ Redux-wrapper for React-components. As DRY as the desert: takes care of managing
 </a>
   <a href="https://www.npmjs.com/package/redux-sands">
   <img src="https://img.shields.io/bundlephobia/min/redux-sands.svg">
-</a>  
+</a>
+</a>
+  <a href="https://www.npmjs.com/package/redux-sands">
+  <img src="https://img.shields.io/travis/CaptainQuark/redux-sands.svg">
+</a>
 </p>
 
 <br/><br/></br>
