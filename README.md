@@ -162,7 +162,7 @@ That's it for an overview. For detailed info, take a look at the API-specs follo
 
 ## API
 
-### `constructor`
+#### `constructor`
 
 Instantiate a new wrapper by providing arguments as values in an object.
 
@@ -177,50 +177,50 @@ Optional:
 - `component`
   - React-component to connect to. Can be provided during init or via `add`.
 
-### `add`
+#### `add`
 
 The function `add` is responsible for building your wrapper to actually do some stuff. Every `add` returns the instance, so you can nicely chain your additions.
 
 Every `add`-call only takes an object which itself only has a single root-key, thus limiting each addition to one specific task.
 
-#### `add({ initState: })`
+- `add({ initState: })`
 
-Define a default state to fetch if no matching action-type has been found. Has to be provided, else redux can't set the default state, too. Same as in every standard reducer used with redux.
+  Define a default state to fetch if no matching action-type has been found. Has to be provided, else redux can't set the default state, too. Same as in every standard reducer used with redux.
 
-#### `add({ component: })`
+- `add({ component: })`
 
-Define the component for this wrapper. Not necessary if already done during init.
+  Define the component for this wrapper. Not necessary if already done during init.
 
-#### `add({ reducer: })`
+- `add({ reducer: })`
 
-Add a new reducer. **This call has a shorthand version, see next listing.**. You define a reducer by providing its name as the next key after `reducer`. The name-key itself has possible two children:
+  Add a new reducer. **This call has a shorthand version, see next listing.**. You define a reducer by providing its name as the next key after `reducer`. The name-key itself has possible two children:
 
-- `fn`: The reducer function, just as you know from standard redux.
-  - Takes `(state, action)` as function-params.
-  - Has to return a state-copy, as it's usally done by redux.
-- `withSaga`: Provide an additional saga-listener.
-  - Has only one children, which itself is a key, too: Represents one of saga's effect-functions, such as `takeEvery`, provided as strnig. The mapping to the correct function gets done by the wrapper.
-  - The effect-name-key has the usual saga-generator as child.
+  - `fn`: The reducer function, just as you know from standard redux.
+    - Takes `(state, action)` as function-params.
+    - Has to return a state-copy, as it's usally done by redux.
+  - `withSaga`: Provide an additional saga-listener.
+    - Has only one children, which itself is a key, too: Represents one of saga's effect-functions, such as `takeEvery`, provided as strnig. The mapping to the correct function gets done by the wrapper.
+    - The effect-name-key has the usual saga-generator as child.
 
-#### `add({ [reducerName]: })`
+- `add({ [reducerName]: })`
 
-When none of the keys above is provided, it's assumed you're providing a reducer in the shorthand version. Therefore, the key describes the reducer name and its child represents the reducer-functions itself. This is shortest way possible to add a reducer.
+  When none of the keys above is provided, it's assumed you're providing a reducer in the shorthand version. Therefore, the key describes the reducer name and its child represents the reducer-functions itself. This is shortest way possible to add a reducer.
 
-> Example: `.add({ update: (state, action) => ({...state, ...action}))`
+  > Example: `.add({ update: (state, action) => ({...state, ...action}))`
 
-### `connection`
+#### `connection`
 
 Get the react-redux connection component. Variable, not a function.
 
-### `reducer`
+#### `reducer`
 
 Get reducer for integration with the store. Variable, not a function.
 
-### `saga`
+#### `saga`
 
 Get the saga for integration with the store's middleware. Variable, not a function.
 
-### `types(...)`
+#### `types(...)`
 
 Get a mapping of all used reducer-names to the internally used action-types. If no strings are provided, a complete map of all names is returned. Otherwise provide a set of requested names, separated by colon.
 
