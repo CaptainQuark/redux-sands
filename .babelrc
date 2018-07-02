@@ -8,7 +8,8 @@
         }
       }
     ],
-    "minify"
+    "minify",
+    "react"
   ],
   "plugins": ["babel-plugin-transform-object-rest-spread", "transform-runtime"]
 }

@@ -1,4 +1,4 @@
-import ReduxWrapper from "./index";
+import ReduxWrapper from "../../source/index"
 
 /*
  *

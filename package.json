@@ -1,8 +1,7 @@
 {
   "name": "redux-sands",
   "version": "1.0.0-beta.6",
-  "description":
-    "Wrapper for redux to handle all boiler-plate, as DRY as the desert. ",
+  "description": "Wrapper for redux to handle all boiler-plate, as DRY as the desert. ",
   "main": "production/index.js",
   "scripts": {
     "test": "jest",
@@ -45,6 +44,10 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "jest": "^23.2.0"
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "jest": "^23.2.0",
+    "jest-enzyme": "^6.0.2",
+    "react-dom": "^16.4.1"
   }
 }
