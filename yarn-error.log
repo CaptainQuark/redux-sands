@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /Users/Thomas/.yarn/bin/yarn.js test
+  /usr/local/bin/node /Users/Thomas/.yarn/bin/yarn.js run test:badges
 
 PATH: 
   /Users/Thomas/.yarn/bin:/Users/Thomas/.config/yarn/global/node_modules/.bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/Thomas/.yarn/bin:/Users/Thomas/.config/yarn/global/node_modules/.bin:/Library/Frameworks/Python.framework/Versions/3.6/bin
@@ -20,23 +20,19 @@ npm manifest:
     "description": "Wrapper for redux to handle all boiler-plate, as DRY as the desert. ",
     "main": "production/index.js",
     "scripts": {
+      "build": "babel source -d production",
       "test": "jest",
-      "build": "babel source -d production"
+      "test:coverage": "npm test -- --coverage",
+      "test:badges": "npm run test:coverage  && jest-coverage-badges"
+    },
+    "jest": {
+      "coverageReporters": ["json-summary", "text", "lcov"]
     },
     "repository": {
       "type": "git",
       "url": "git+https://github.com/CaptainQuark/redux-sands.git"
     },
-    "keywords": [
-      "react",
-      "redux",
-      "saga",
-      "boilerplate",
-      "remove",
-      "react-native",
-      "web",
-      "state"
-    ],
+    "keywords": ["react", "redux", "saga", "boilerplate", "remove", "react-native", "web", "state"],
     "author": "Thomas Schönmann <tom@expressflow.com>",
     "license": "MIT",
     "bugs": {
@@ -4514,9 +4510,9 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 1
+  Exit code: 127
   Command: sh
-  Arguments: -c jest
+  Arguments: -c npm run test:coverage  && jest-coverage-badges
   Directory: /Users/Thomas/Github/redux-sands
   Output:
   

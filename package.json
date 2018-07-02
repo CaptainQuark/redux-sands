@@ -4,8 +4,17 @@
   "description": "Wrapper for redux to handle all boiler-plate, as DRY as the desert. ",
   "main": "production/index.js",
   "scripts": {
+    "build": "babel source -d production",
     "test": "jest",
-    "build": "babel source -d production"
+    "test:coverage": "npm test -- --coverage",
+    "test:badges": "npm run test:coverage  && jest-coverage-badges"
+  },
+  "jest": {
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
+    ]
   },
   "repository": {
     "type": "git",
@@ -47,6 +56,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^23.2.0",
+    "jest-coverage-badges": "^1.0.0",
     "jest-enzyme": "^6.0.2",
     "react-dom": "^16.4.1"
   }
