@@ -1,4 +1,4 @@
-import ReduxWrapper from "../../source/index";
+import ReduxWrapper from "../../../source";
 import component from "./component";
 
 const wrapper = new ReduxWrapper({ called: "home" });

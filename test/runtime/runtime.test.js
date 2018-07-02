@@ -8,8 +8,7 @@ import { shallow, mount, render, configure } from "enzyme";
 import AppReduxContainer from "./App";
 import App from "./App/component";
 import Home from "./Home";
-
-configure({ adapter: new Adapter() });
+import Settings from "./Settings";
 
 /*
  *
@@ -17,6 +16,7 @@ configure({ adapter: new Adapter() });
  *
  */
 
+configure({ adapter: new Adapter() });
 const wrapper = mount(<AppReduxContainer />);
 
 /*
@@ -37,6 +37,19 @@ describe("<AppReduxContainer/>", () => {
 
   it("should contain init props in <Home/>", () => {
     //console.log(wrapper.find(Home).children().debug());
-    expect(wrapper.find(Home).children().prop("count")).toEqual(5);
+    expect(
+      wrapper
+        .find(Home)
+        .children()
+        .prop("count")
+    ).toEqual(5);
+  });
+});
+
+describe("<Settings", () => {
+  const settings = wrapper.find(Settings).children();
+  it("should have all props (incl. imported)", () => {
+    expect(settings.prop("isOn")).toEqual(true);
+    expect(settings.prop("count")).toEqual(5);
   });
 });
