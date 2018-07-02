@@ -11,25 +11,35 @@ Redux-wrapper for React-components. As DRY as the desert: takes care of managing
 <br/><br/></br>
 
 <p align="center">
+  
 <a href="https://www.npmjs.com/package/redux-sands">
   <img src="https://img.shields.io/npm/v/redux-sands.svg">
 </a>
-  <a href="https://github.com/CaptainQuark/redux-sands/blob/master/LICENSE">
-  <img src="https://img.shields.io/npm/l/redux-sands.svg" >
-</a>
-  <a href="https://www.npmjs.com/package/redux-sands">
-  <img src="https://img.shields.io/npm/dm/redux-sands.svg">
-</a>
+  
   <a href="https://www.npmjs.com/package/redux-sands">
   <img src="https://img.shields.io/bundlephobia/min/redux-sands.svg">
 </a>
+
+<a href="https://www.npmjs.com/package/redux-sands">
+  <img src="https://img.shields.io/npm/dm/redux-sands.svg">
 </a>
-  <a href="https://www.npmjs.com/package/redux-sands">
+
+<a href="https://www.npmjs.com/package/redux-sands">
   <img src="https://img.shields.io/travis/CaptainQuark/redux-sands.svg">
 </a>
+
+  <a href="https://github.com/CaptainQuark/redux-sands/blob/master/LICENSE">
+  <img src="https://img.shields.io/npm/l/redux-sands.svg" >
+</a>
+
 </p>
 
 <br/><br/></br>
+
+<p align="center">
+  <a href="https://neue-moderne.gitbook.io/redux-sands/">Clean documentation: Gitbook</a>
+</p>
+          
 
 ## Chapters
 
