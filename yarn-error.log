@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /Users/Thomas/.yarn/bin/yarn.js run test:badges
+  /usr/local/bin/node /Users/Thomas/.yarn/bin/yarn.js test
 
 PATH: 
   /Users/Thomas/.yarn/bin:/Users/Thomas/.config/yarn/global/node_modules/.bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/Thomas/.yarn/bin:/Users/Thomas/.config/yarn/global/node_modules/.bin:/Library/Frameworks/Python.framework/Versions/3.6/bin
@@ -26,13 +26,26 @@ npm manifest:
       "test:badges": "npm run test:coverage  && jest-coverage-badges"
     },
     "jest": {
-      "coverageReporters": ["json-summary", "text", "lcov"]
+      "coverageReporters": [
+        "json-summary",
+        "text",
+        "lcov"
+      ]
     },
     "repository": {
       "type": "git",
       "url": "git+https://github.com/CaptainQuark/redux-sands.git"
     },
-    "keywords": ["react", "redux", "saga", "boilerplate", "remove", "react-native", "web", "state"],
+    "keywords": [
+      "react",
+      "redux",
+      "saga",
+      "boilerplate",
+      "remove",
+      "react-native",
+      "web",
+      "state"
+    ],
     "author": "Thomas Schönmann <tom@expressflow.com>",
     "license": "MIT",
     "bugs": {
@@ -59,6 +72,7 @@ npm manifest:
       "enzyme": "^3.3.0",
       "enzyme-adapter-react-16": "^1.1.1",
       "jest": "^23.2.0",
+      "jest-coverage-badges": "^1.0.0",
       "jest-enzyme": "^6.0.2",
       "react-dom": "^16.4.1"
     }
@@ -2491,6 +2505,10 @@ Lockfile:
       jest-validate "^23.2.0"
       pretty-format "^23.2.0"
   
+  jest-coverage-badges@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/jest-coverage-badges/-/jest-coverage-badges-1.0.0.tgz#ccf50d4155c02855f1143528ba366b7ccc0631cf"
+  
   jest-diff@^23.2.0:
     version "23.2.0"
     resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-23.2.0.tgz#9f2cf4b51e12c791550200abc16b47130af1062a"
@@ -4510,9 +4528,9 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 127
+  Exit code: 1
   Command: sh
-  Arguments: -c npm run test:coverage  && jest-coverage-badges
+  Arguments: -c jest
   Directory: /Users/Thomas/Github/redux-sands
   Output:
   
