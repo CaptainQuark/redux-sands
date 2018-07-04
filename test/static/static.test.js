@@ -1,4 +1,5 @@
 import ReduxWrapper from "../../source/index";
+import component from "../runtime/Home/component";
 
 /*
  *
@@ -6,8 +7,7 @@ import ReduxWrapper from "../../source/index";
  *
  */
 
-const wrapper = new ReduxWrapper({ called: "test" });
-wrapper.add({ update: (state, action) => ({ ...state, ...action }) });
+let wrapper = null;
 
 /*
  *
@@ -15,8 +15,13 @@ wrapper.add({ update: (state, action) => ({ ...state, ...action }) });
  *
  */
 
+/*
+ * Init.
+ */
+
 describe("Init", () => {
   test("instantiate", () => {
+    wrapper = new ReduxWrapper({ called: "test" });
     expect(wrapper).toBeDefined();
   });
 
@@ -25,9 +30,44 @@ describe("Init", () => {
   });
 });
 
+/*
+ * Adding.
+ */
+
+describe("Adding'", () => {
+  test("correct add-return", () => {
+    expect(wrapper.add({ update: (state, action) => ({ ...state, ...action }) })).toEqual(wrapper);
+    expect(wrapper.add({ remove: (state, { remove }) => ({ ...state, remove }) })).toEqual(wrapper);
+  });
+
+  test("add initState", () => {
+    expect(wrapper.add({ initState: { count: 0 } })).toEqual(wrapper);
+    expect(wrapper.initState.count).toEqual(Number(0));
+  });
+
+  test("added reducer", () => {
+    expect(wrapper.actionReducers["TEST_UPDATE"].name).toMatch(/update/);
+    expect(wrapper.actionReducers["TEST_UPDATE"].isReducable).toEqual(true);
+    expect(wrapper.actionReducers["TEST_UPDATE"].f).toBeTruthy();
+
+    expect(wrapper.actionReducers["TEST_REMOVE"].name).toMatch(/remove/);
+    expect(wrapper.actionReducers["TEST_REMOVE"].isReducable).toEqual(true);
+    expect(wrapper.actionReducers["TEST_REMOVE"].f).toBeTruthy();
+  });
+
+  test("added component", () => {
+    expect(wrapper.add({ component })).toEqual(wrapper);
+    expect(wrapper.component).toEqual(component);
+  });
+});
+
+/*
+ * Exports from ReduxWrapper.
+ */
+
 describe("Exports to integrate with store", () => {
   test("correct type export", () => {
-    expect(wrapper.types().update).toMatch(/TEST_UPDATE/);
+    expect(wrapper.types()).toEqual({ update: "TEST_UPDATE", remove: "TEST_REMOVE" });
   });
 
   test("reducer exported", () => {
@@ -37,15 +77,40 @@ describe("Exports to integrate with store", () => {
   test("saga should be null", () => {
     expect(wrapper.saga.length).toEqual(Number(0));
   });
+
+  test("mapStateToProps", () => {
+    const stateMap = wrapper.mapStateToProps({ other: { persons: 5 }, test: { count: 0 } });
+    expect(stateMap).toEqual({ count: 0 });
+  });
+
+  test("connection", () => {
+    expect(wrapper.connection).toBeTruthy();
+  });
 });
 
+/*
+ * Internal action reducers.
+ */
+
 describe("Internal values", () => {
+  test("Correct state", () => {
+    expect(wrapper.initState.count).toEqual(Number(0));
+  });
+
   test("Correct actionReducer", () => {
     expect(wrapper.actionReducers["TEST_UPDATE"].name).toMatch(/update/);
     expect(wrapper.actionReducers["TEST_UPDATE"].isReducable).toEqual(true);
     expect(wrapper.actionReducers["TEST_UPDATE"].f).toBeTruthy();
   });
+
+  test("_bind()", () => {
+    expect(wrapper._bind()).toEqual(undefined);
+  });
 });
+
+/*
+ * Static type creators.
+ */
 
 describe("Create types-helpers", () => {
   test("Correct actionReducer", () => {
@@ -93,22 +158,9 @@ describe("Create types-helpers", () => {
   });
 });
 
-describe("Adding'", () => {
-  test("correct add-return", () => {
-    expect(wrapper.add({ remove: (state, { remove }) => ({ ...state, remove }) })).toEqual(wrapper);
-  });
-
-  test("add initState", () => {
-    expect(wrapper.add({ initState: { count: 0 } })).toEqual(wrapper);
-    expect(wrapper.initState.count).toEqual(Number(0));
-  });
-
-  test("added reducer", () => {
-    expect(wrapper.actionReducers["TEST_REMOVE"].name).toMatch(/remove/);
-    expect(wrapper.actionReducers["TEST_REMOVE"].isReducable).toEqual(true);
-    expect(wrapper.actionReducers["TEST_REMOVE"].f).toBeTruthy();
-  });
-});
+/*
+ * Saga.
+ */
 
 describe("Saga'", () => {
   const wrapper = new ReduxWrapper({ called: "saga" });

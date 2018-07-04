@@ -19,7 +19,7 @@ import { takeEvery, call, put } from "redux-saga/effects";
 
 class ReduxWrapper {
   constructor(props) {
-    if (!props || !props.called) {
+    if (!props || !props.called) {
       throw Error("ReduxWrapper : constructor - missing 'called'-arg");
     }
 
@@ -78,7 +78,7 @@ class ReduxWrapper {
 
     // Let's see what param has been passed. Only one per add-call is valid.
     // If non was found, the caller uses the shorthand version to add an actionReducer.
-    if (initState) this.initState = initState;
+    if (initState) this.initState = { ...initState };
     else if (component) this.component = component;
     else if (reducer) this._addActionReducer({ action: reducer });
     else if (otherStateProps) this.otherStateProps = { ...this.otherStateProps, otherStateProps };
@@ -353,7 +353,8 @@ class ReduxWrapper {
     let names = {};
     if (element.constructor === String) names = { fName: element, exposedName: element, withSaga: false };
     else if (element.constructor === Object) {
-      if (!element.origin || !element.as) throw Error("No 'origin' and/or 'as' provided in element to read from.");
+      if (!element.origin || !element.as)
+        throw Error("No 'origin' and/or 'as' provided in element to read from.");
       names = {
         fName: element.origin,
         exposedName: element.as || element.origin,
