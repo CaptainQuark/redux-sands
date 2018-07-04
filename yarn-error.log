@@ -16,7 +16,7 @@ Platform:
 npm manifest: 
   {
     "name": "redux-sands",
-    "version": "1.0.0-beta.6",
+    "version": "1.0.0-beta.7",
     "description": "Wrapper for redux to handle all boiler-plate, as DRY as the desert. ",
     "main": "production/index.js",
     "scripts": {
