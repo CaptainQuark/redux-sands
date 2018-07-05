@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/CaptainQuark/redux-sands/master/assets/ReduxSands%20hero.004.png" width="100%"/>
+  <img src="https://github.com/CaptainQuark/redux-sands/blob/master/assets/rs_hero_alt/rs_hero_alt.007.png" width="100%"/>
 </p>
 
 <br/><br/><br/>
@@ -26,6 +26,10 @@ Redux-wrapper for React-components. As DRY as the desert: takes care of managing
 
 <a href="https://www.npmjs.com/package/redux-sands">
   <img src="https://img.shields.io/travis/CaptainQuark/redux-sands.svg">
+</a>
+
+<a href="https://www.npmjs.com/package/redux-sands">
+  <img src="https://github.com/CaptainQuark/redux-sands/blob/master/coverage/badge-statements.svg">
 </a>
 
   <a href="https://github.com/CaptainQuark/redux-sands/blob/master/LICENSE">
