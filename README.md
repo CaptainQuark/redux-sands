@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/CaptainQuark/redux-sands/blob/master/assets/rs_hero_alt/rs_hero_alt.007.png" width="100%"/>
+  <img src="https://github.com/CaptainQuark/redux-sands/blob/master/assets/rs_hero_alt/rs_hero_alt.006.png" width="100%"/>
 </p>
 
 <br/><br/><br/>
