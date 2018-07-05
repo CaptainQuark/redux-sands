@@ -36,6 +36,10 @@ Redux-wrapper for React-components. As DRY as the desert: takes care of managing
   <img src="https://img.shields.io/npm/l/redux-sands.svg" >
 </a>
 
+<a href="https://github.com/CaptainQuark/redux-sands/blob/master/LICENSE">
+  <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" >
+</a>
+
 </p>
 
 <br/><br/></br>
