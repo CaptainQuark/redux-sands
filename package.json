@@ -1,6 +1,6 @@
 {
   "name": "redux-sands",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Wrapper for redux to handle all boiler-plate, as DRY as the desert. ",
   "main": "production/index.js",
   "scripts": {
@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/CaptainQuark/redux-sands/issues"
   },
-  "homepage": "https://github.com/CaptainQuark/redux-sands#readme",
+  "homepage": "https://neue-moderne.gitbook.io/redux-sands/",
   "dependencies": {
     "babel-plugin-transform-export-default": "^7.0.0-alpha.20",
     "babel-preset-minify": "^0.5.0-alpha.a24dd066",

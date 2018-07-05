@@ -395,8 +395,11 @@ class ReduxWrapper {
     let names = {};
     if (element.constructor === String) names = { fName: element, exposedName: element, withSaga: false };
     else if (element.constructor === Object) {
-      if (!element.origin || !element.as)
-        throw Error("No 'origin' and/or 'as' provided in element to read from.");
+      if (!element.origin) throw Error("No 'origin' provided in element to read from.");
+      if (element.origin && !element.withSaga && !element.as)
+        throw Error("No 'withSaga' to origin provided in element to read from.");
+      if (element.withSaga && !element.origin)
+        throw Error("No 'origin' to 'withSaga' provided in element to read from.");
       names = {
         fName: element.origin,
         exposedName: element.as || element.origin,

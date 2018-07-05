@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /Users/Thomas/.yarn/bin/yarn.js test
+  /usr/local/bin/node /Users/Thomas/.yarn/bin/yarn.js publish
 
 PATH: 
   /Users/Thomas/.yarn/bin:/Users/Thomas/.config/yarn/global/node_modules/.bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/Thomas/.yarn/bin:/Users/Thomas/.config/yarn/global/node_modules/.bin:/Library/Frameworks/Python.framework/Versions/3.6/bin
@@ -16,7 +16,7 @@ Platform:
 npm manifest: 
   {
     "name": "redux-sands",
-    "version": "1.0.0-beta.8",
+    "version": "1.0.0",
     "description": "Wrapper for redux to handle all boiler-plate, as DRY as the desert. ",
     "main": "production/index.js",
     "scripts": {
@@ -51,7 +51,7 @@ npm manifest:
     "bugs": {
       "url": "https://github.com/CaptainQuark/redux-sands/issues"
     },
-    "homepage": "https://github.com/CaptainQuark/redux-sands#readme",
+    "homepage": "https://neue-moderne.gitbook.io/redux-sands/",
     "dependencies": {
       "babel-plugin-transform-export-default": "^7.0.0-alpha.20",
       "babel-preset-minify": "^0.5.0-alpha.a24dd066",
@@ -4527,16 +4527,14 @@ Lockfile:
       window-size "0.1.0"
 
 Trace: 
-  Error: Command failed.
-  Exit code: 1
-  Command: sh
-  Arguments: -c jest
-  Directory: /Users/Thomas/Github/redux-sands
-  Output:
-  
-      at ProcessTermError.MessageError (/Users/Thomas/.yarn/lib/cli.js:186:110)
-      at new ProcessTermError (/Users/Thomas/.yarn/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/Users/Thomas/.yarn/lib/cli.js:30281:17)
-      at ChildProcess.emit (events.js:160:13)
-      at maybeClose (internal/child_process.js:943:16)
-      at Process.ChildProcess._handle.onexit (internal/child_process.js:220:5)
+  Error: canceled
+      at Interface.<anonymous> (/Users/Thomas/.yarn/lib/cli.js:128791:13)
+      at Interface.emit (events.js:160:13)
+      at Interface._ttyWrite (readline.js:784:16)
+      at ReadStream.onkeypress (readline.js:165:10)
+      at ReadStream.emit (events.js:160:13)
+      at emitKeys (internal/readline.js:420:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1020:36)
+      at ReadStream.emit (events.js:160:13)
+      at addChunk (_stream_readable.js:269:12)
