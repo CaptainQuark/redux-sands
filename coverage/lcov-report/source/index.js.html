@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">69.59% </span>
+        <span class="strong">69.74% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>103/148</span>
+        <span class='fraction'>106/152</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">61.64% </span>
+        <span class="strong">62.5% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>45/73</span>
+        <span class='fraction'>50/80</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">63.16% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>24/38</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">70.9% </span>
+        <span class="strong">70.5% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>95/134</span>
+        <span class='fraction'>98/139</span>
       </div>
     </div>
     <p class="quiet">
@@ -483,7 +483,14 @@
 <a name='L435'></a><a href='#L435'>435</a>
 <a name='L436'></a><a href='#L436'>436</a>
 <a name='L437'></a><a href='#L437'>437</a>
-<a name='L438'></a><a href='#L438'>438</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L438'></a><a href='#L438'>438</a>
+<a name='L439'></a><a href='#L439'>439</a>
+<a name='L440'></a><a href='#L440'>440</a>
+<a name='L441'></a><a href='#L441'>441</a>
+<a name='L442'></a><a href='#L442'>442</a>
+<a name='L443'></a><a href='#L443'>443</a>
+<a name='L444'></a><a href='#L444'>444</a>
+<a name='L445'></a><a href='#L445'>445</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -564,6 +571,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -879,9 +889,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -999,8 +1013,11 @@ class ReduxWrapper {
         // is provided, we can copy as is.
         return props[id].forEach(element =&gt; {
           <span class="missing-if-branch" title="else path not taken" >E</span>if (element.constructor === String) return (mapped[element] = otherCopy[element]);
-<span class="cstat-no" title="statement not covered" >          if (element.constructor === Object) <span class="cstat-no" title="statement not covered" >return (mapped[element.as] = otherCopy[element.origin]);</span></span>
-<span class="cstat-no" title="statement not covered" >          throw Error(`ReduxWrapper : mapStateToProps - Unsupported type as value for ${id} in ${element}`);</span>
+<span class="cstat-no" title="statement not covered" >          if (element.constructor === Object)</span>
+<span class="cstat-no" title="statement not covered" >            return (mapped[element.as] = otherCopy[element.origin]);</span>
+<span class="cstat-no" title="statement not covered" >          throw Error(</span>
+            `ReduxWrapper : mapStateToProps - Unsupported type as value for ${id} in ${element}`
+          );
         });
       }
 &nbsp;
@@ -1315,10 +1332,14 @@ class ReduxWrapper {
 &nbsp;
   static _extractImportReducerParams(element) {
     let names = {};
-    if (element.constructor === String) names = { fName: element, exposedName: element, withSaga: false };
+    if (element.constructor === String)
+      names = { fName: element, exposedName: element, withSaga: false };
     else if (element.constructor === Object) {
-      if (!element.origin || !element.as)
-        throw Error("No 'origin' and/or 'as' provided in element to read from.");
+      if (!element.origin) throw Error("No 'origin' provided in element to read from.");
+      if (element.origin &amp;&amp; !element.withSaga &amp;&amp; !element.as)
+        throw Error("No 'withSaga' to origin provided in element to read from.");
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (element.withSaga &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!element.origin)</span>
+<span class="cstat-no" title="statement not covered" >        throw Error("No 'origin' to 'withSaga' provided in element to read from.");</span>
       names = {
         fName: element.origin,
         exposedName: element.as || <span class="branch-1 cbranch-no" title="branch not covered" >element.origin,</span>
@@ -1363,7 +1384,7 @@ export default ReduxWrapper;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jul 05 2018 20:24:28 GMT+0200 (CEST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jul 05 2018 21:19:57 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../prettify.js"></script>
