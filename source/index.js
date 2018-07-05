@@ -9,7 +9,26 @@
 //
 
 import { connect } from "react-redux";
-import { takeEvery, call, put } from "redux-saga/effects";
+import {
+  takeEvery,
+  takeLatest,
+  throttle,
+  call,
+  put,
+  take,
+  apply,
+  cps,
+  fork,
+  spawn,
+  join,
+  cancel,
+  select,
+  flush,
+  setContext,
+  getContext,
+  race,
+  all
+} from "redux-saga/effects";
 
 /*
  *
@@ -19,7 +38,7 @@ import { takeEvery, call, put } from "redux-saga/effects";
 
 class ReduxWrapper {
   constructor(props) {
-    if (!props || !props.called) {
+    if (!props || !props.called) {
       throw Error("ReduxWrapper : constructor - missing 'called'-arg");
     }
 
@@ -78,7 +97,7 @@ class ReduxWrapper {
 
     // Let's see what param has been passed. Only one per add-call is valid.
     // If non was found, the caller uses the shorthand version to add an actionReducer.
-    if (initState) this.initState = initState;
+    if (initState) this.initState = { ...initState };
     else if (component) this.component = component;
     else if (reducer) this._addActionReducer({ action: reducer });
     else if (otherStateProps) this.otherStateProps = { ...this.otherStateProps, otherStateProps };
@@ -297,14 +316,25 @@ class ReduxWrapper {
     // the saga-function that listens, e.g. takeEvery.
     const exposedFnName = Object.keys(action)[0];
     const sagaFnName = Object.keys(action[exposedFnName].withSaga)[0];
+    let sagaListener = null;
+
     switch (sagaFnName) {
       case "takeEvery":
-        return this._addSagaAction({ action, exposedFnName, sagaFnName, sagaListener: takeEvery });
+        sagaListener = takeEvery;
+        break;
+      case "takeLatest":
+        sagaListener = takeLatest;
+        break;
+      case "throttle":
+        sagaListener = throttle;
+        break;
       default:
         throw Error(
           "ReduxWrapper : _addSaga : fn-signature unknown. The key in 'withSaga' can't be used or isn't provided."
         );
     }
+
+    return this._addSagaAction({ action, exposedFnName, sagaFnName, sagaListener });
   }
 
   _addSagaAction({ action, exposedFnName, sagaFnName, sagaListener }) {
@@ -312,13 +342,25 @@ class ReduxWrapper {
     const actionKey = Object.keys(_action)[0];
     const reqType = `SAGA_REQ_${this._id.toUpperCase()}_${actionKey.toUpperCase()}`;
     const recType = `SAGA_REC_${this._id.toUpperCase()}_${actionKey.toUpperCase()}`;
+    let selectedSagaParams = {};
+
+    // Use saga params provided as string-keys by the user, if available.
+    // Else only select the default functions to keep a low overhead.
+    if (action[exposedFnName].withSaga.andEffects)
+      action[exposedFnName].withSaga.andEffects.forEach(
+        k => (selectedSagaParams[k] = ReduxWrapper.allSagaParams[k])
+      );
+    else selectedSagaParams = { call, put, take };
 
     // First declare the action to trigger the saga-sideeffect. Won't be registered
     // in the reducer, but will provide some params in the action.
     this.actionReducers[reqType] = {
       name: actionKey,
       isReducable: false,
-      params: { call, put, result: { type: recType } }
+      params: {
+        ...selectedSagaParams,
+        result: { type: recType }
+      }
     };
 
     // Now provide the saga-fn. The logic is contained as a function
@@ -353,9 +395,8 @@ class ReduxWrapper {
     let names = {};
     if (element.constructor === String) names = { fName: element, exposedName: element, withSaga: false };
     else if (element.constructor === Object) {
-      if (!element.origin) throw Error("No 'origin' provided in element to read from.");
-      if (element.origin && !element.withSaga && !element.as) throw Error("No 'withSaga' to origin provided in element to read from.");
-      if (element.withSaga && !element.origin) throw Error("No 'origin' to 'withSaga' provided in element to read from.");
+      if (!element.origin || !element.as)
+        throw Error("No 'origin' and/or 'as' provided in element to read from.");
       names = {
         fName: element.origin,
         exposedName: element.as || element.origin,
@@ -364,6 +405,26 @@ class ReduxWrapper {
     } else throw Error("Unexpected type in otherStateActions' key found.");
 
     return { ...names };
+  }
+
+  static get allSagaParams() {
+    return {
+      put,
+      call,
+      take,
+      apply,
+      cps,
+      fork,
+      spawn,
+      join,
+      cancel,
+      select,
+      flush,
+      setContext,
+      getContext,
+      race,
+      all
+    };
   }
 }
 

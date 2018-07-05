@@ -46,7 +46,7 @@ describe("<AppReduxContainer/>", () => {
   });
 });
 
-describe("<Settings", () => {
+describe("<Settings>", () => {
   const settings = wrapper.find(Settings).children();
   it("should have all props (incl. imported)", () => {
     expect(settings.prop("isOn")).toEqual(true);
