@@ -77,11 +77,8 @@ class ReduxWrapper {
         // is provided, we can copy as is.
         return props[id].forEach(element => {
           if (element.constructor === String) return (mapped[element] = otherCopy[element]);
-          if (element.constructor === Object)
-            return (mapped[element.as] = otherCopy[element.origin]);
-          throw Error(
-            `ReduxWrapper : mapStateToProps - Unsupported type as value for ${id} in ${element}`
-          );
+          if (element.constructor === Object) return (mapped[element.as] = otherCopy[element.origin]);
+          throw Error(`ReduxWrapper : mapStateToProps - Unsupported type as value for ${id} in ${element}`);
         });
       }
 
@@ -396,8 +393,7 @@ class ReduxWrapper {
 
   static _extractImportReducerParams(element) {
     let names = {};
-    if (element.constructor === String)
-      names = { fName: element, exposedName: element, withSaga: false };
+    if (element.constructor === String) names = { fName: element, exposedName: element, withSaga: false };
     else if (element.constructor === Object) {
       if (!element.origin) throw Error("No 'origin' provided in element to read from.");
       if (element.origin && !element.withSaga && !element.as)
