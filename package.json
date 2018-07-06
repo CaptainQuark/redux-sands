@@ -1,6 +1,6 @@
 {
   "name": "redux-sands",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Wrapper for redux to handle all boiler-plate, as DRY as the desert. ",
   "main": "production/index.js",
   "scripts": {
@@ -17,8 +17,7 @@
     ]
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/CaptainQuark/redux-sands.git"
+    "url": "github:CaptainQuark/redux-sands"
   },
   "keywords": [
     "react",

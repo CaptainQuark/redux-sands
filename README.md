@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/CaptainQuark/redux-sands/blob/master/assets/rs_hero_alt/rs_hero_alt.006.png" width="100%"/>
+  <img src="https://raw.githubusercontent.com/CaptainQuark/redux-sands/master/assets/rs_hero_alt/rs_hero_alt.007.png" width="100%"/>
 </p>
 
 <br/><br/><br/>
@@ -11,11 +11,11 @@ Redux-wrapper for React-components. As DRY as the desert: takes care of managing
 <br/><br/></br>
 
 <p align="center">
-  
+
 <a href="https://www.npmjs.com/package/redux-sands">
   <img src="https://img.shields.io/npm/v/redux-sands.svg">
 </a>
-  
+
   <a href="https://www.npmjs.com/package/redux-sands">
   <img src="https://img.shields.io/bundlephobia/min/redux-sands.svg">
 </a>
